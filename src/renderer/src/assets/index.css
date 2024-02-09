@@ -13,11 +13,30 @@
 
     @apply select-none;
 
-    @apply  bg-sidebar-background;
+    @apply bg-sidebar-background;
 
     @apply font-mono antialiased text-white;
 
     @apply overflow-hidden;
   }
 
+  header {
+    -webkit-app-region: drag;
+  }
+
+  button {
+    -webkit-app-region: no-drag;
+  }
+
+  ::-webkit-scrollbar {
+    @apply w-2;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-[#555] rounded-md;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
 }
