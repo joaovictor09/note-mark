@@ -1,4 +1,4 @@
-# note-mark
+# min-mark
 
 An Electron application with React and TypeScript
 
@@ -35,8 +35,8 @@ $ pnpm build:linux
 
 ### Roadmap
 
-[ ] - Close, minimize and maximize buttons
-[ ] - Add a cmd + k modal
+[X] - Close, minimize and maximize buttons
+[X] - Add a cmd + k modal
 [ ] - Dark mode and light mode
 [ ] - Create new note and delete notes modal
 [ ] - Change the MD Editor to TipTap

@@ -15,19 +15,19 @@ export function App() {
   function resetScroll() {
     contentContainerRef.current?.scrollTo(0, 0)
   }
-  
+
   return (
     <>
       <CommandMenu />
       <WindowButtons />
       <DraggableTopBar />
       <RooLayout>
-        <Sidebar className="p-2">
+        <Sidebar>
           <ActionButtonsRow className="flex justify-between mt-1" />
-          <NotePreviewList  className="mt-3 space-y-1" onSelect={resetScroll} />
+          <NotePreviewList className="mt-3 space-y-1" onSelect={resetScroll} />
         </Sidebar>
-        <Content ref={contentContainerRef} className=''>
-          <FloatingNoteTitle  className='pt-2'/>
+        <Content ref={contentContainerRef} className="">
+          <FloatingNoteTitle className="pt-2" />
           <MarkdownEditor />
         </Content>
       </RooLayout>

@@ -15,23 +15,27 @@ export function RooLayout({ className, children, ...props }: ComponentProps<'mai
 export function Sidebar({ className, children, ...props }: ComponentProps<'aside'>) {
   const open = useAtomValue(sidebarOpenAtom)
   const setOpen = useSetAtom(sidebarOpenAtom)
-  
+
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
-      if (e.key === "s" && (e.metaKey || e.ctrlKey)) {
+      if (e.key === 's' && (e.metaKey || e.ctrlKey)) {
         e.preventDefault()
         setOpen((open) => !open)
       }
     }
-    document.addEventListener("keydown", down)
-    return () => document.removeEventListener("keydown", down)
+    document.addEventListener('keydown', down)
+    return () => document.removeEventListener('keydown', down)
   }, [])
-  
+
   return (
     <aside
-      className={cn('w-[250px] mt-10 h-[100vh + 10px] overflow-auto', {
-        'hidden': !open
-      },className)}
+      className={cn(
+        'w-[250px] mt-10 h-[100vh + 10px] overflow-auto transition-all p-2',
+        {
+          'w-0 px-0': !open
+        },
+        className
+      )}
       {...props}
     >
       {children}
