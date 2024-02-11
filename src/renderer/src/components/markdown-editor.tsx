@@ -7,12 +7,13 @@ import {
   quotePlugin,
 } from '@mdxeditor/editor'
 import { useMarkdownEditor } from '@renderer/hooks/use-markdown-editor'
+import { EmptyNote } from './empty-note'
 
 export function MarkdownEditor() {
   const { selectedNote, editorRef, handleAutoSaving, handleBlur } =
     useMarkdownEditor()
 
-  if (!selectedNote) return null
+  if (!selectedNote) return <EmptyNote />
 
   return (
     <MDXEditor
@@ -21,6 +22,7 @@ export function MarkdownEditor() {
       onBlur={handleBlur}
       key={selectedNote.title}
       markdown={selectedNote.content}
+      autoFocus
       plugins={[
         headingsPlugin(),
         listsPlugin(),

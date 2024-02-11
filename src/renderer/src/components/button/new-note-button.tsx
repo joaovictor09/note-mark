@@ -9,7 +9,7 @@ export function NewNoteButton({ ...props }: ActionButtonProps) {
   async function handleCreation() {
     await createEmptyNote()
   }
-  
+
   return (
     <ActionButton onClick={handleCreation} {...props}>
       <LuFileSignature className="w-4 h-4 text-[#727272] transition-colors duration-100 group-hover:text-[#919191]" />

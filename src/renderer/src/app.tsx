@@ -26,7 +26,7 @@ export function App() {
           <ActionButtonsRow className="flex justify-between mt-1" />
           <NotePreviewList className="mt-3 space-y-1" onSelect={resetScroll} />
         </Sidebar>
-        <Content ref={contentContainerRef} className="">
+        <Content ref={contentContainerRef}>
           <FloatingNoteTitle className="pt-2" />
           <MarkdownEditor />
         </Content>

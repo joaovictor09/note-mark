@@ -60,7 +60,6 @@ export const saveNoteAtom = atom(
       notes.map((note) => {
         if (note.title === selectedNote.title) {
           return {
-            // ...note,
             title: note.title,
             lastEditTime: Date.now(),
           }
