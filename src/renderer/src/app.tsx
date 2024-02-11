@@ -18,9 +18,7 @@ export function App() {
   
   return (
     <>
-      <div className=''>
-        <CommandMenu />
-      </div>
+      <CommandMenu />
       <WindowButtons />
       <DraggableTopBar />
       <RooLayout>
@@ -28,7 +26,7 @@ export function App() {
           <ActionButtonsRow className="flex justify-between mt-1" />
           <NotePreviewList  className="mt-3 space-y-1" onSelect={resetScroll} />
         </Sidebar>
-        <Content ref={contentContainerRef}>
+        <Content ref={contentContainerRef} className=''>
           <FloatingNoteTitle  className='pt-2'/>
           <MarkdownEditor />
         </Content>

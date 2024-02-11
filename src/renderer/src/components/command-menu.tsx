@@ -6,7 +6,7 @@ import {
   CommandItem,
   CommandList
 } from "@/components/ui/command"
-import { createEmptyNoteAtom, deleteNoteAtom, selectedNoteAtom } from "@renderer/store"
+import { createEmptyNoteAtom, deleteNoteAtom, selectedNoteAtom, sidebarOpenAtom } from "@renderer/store"
 import { useAtomValue, useSetAtom } from "jotai"
 import { useEffect, useState } from "react"
 
@@ -16,13 +16,15 @@ export function CommandMenu() {
 
   const createEmptyNote = useSetAtom(createEmptyNoteAtom)
   const selectedNote = useAtomValue(selectedNoteAtom)
+  const deleteNote = useSetAtom(deleteNoteAtom)
+  const sidebarOpen = useAtomValue(sidebarOpenAtom)
+  const setSidebarOpen = useSetAtom(sidebarOpenAtom)
 
   async function handleCreation() {
     await createEmptyNote()
     setOpen(false)
   }
 
-  const deleteNote = useSetAtom(deleteNoteAtom)
 
   async function handleDelete() {
     await deleteNote()
@@ -50,6 +52,14 @@ export function CommandMenu() {
             Create new note
           </CommandItem>
           <CommandItem disabled={!selectedNote} onSelect={handleDelete}>Delete note</CommandItem>
+          <CommandItem 
+            onSelect={() => {
+              setSidebarOpen(!sidebarOpen)
+              setOpen(false)}
+            }
+          >
+            {sidebarOpen ? 'Close sidebar' : 'Open sidebar'}
+          </CommandItem>
         </CommandGroup>
       </CommandList>
     </CommandDialog>
