@@ -32,3 +32,11 @@ $ pnpm build:mac
 # For Linux
 $ pnpm build:linux
 ```
+
+### Roadmap
+
+[ ] - Close, minimize and maximize buttons
+[ ] - Add a cmd + k modal
+[ ] - Dark mode and light mode
+[ ] - Create new note and delete notes modal
+[ ] - Change the MD Editor to TipTap
