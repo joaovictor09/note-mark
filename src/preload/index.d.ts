@@ -1,5 +1,5 @@
 import { NoteInfo } from "@shared/models"
-import { CreateNote, GetNotes, ReadNote, WriteNote } from "@shared/types"
+import { CreateNote, DeleteNote, GetNotes, ReadNote, WriteNote } from "@shared/types"
 
 declare global {
   interface Window {
@@ -10,6 +10,7 @@ declare global {
       readNote: (title: NoteInfo['title']) =>  ReadNote
       writeNote: WriteNote
       createNote: CreateNote
+      deleteNote: DeleteNote
     }
   }
 }
