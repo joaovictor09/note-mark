@@ -1,5 +1,5 @@
 import { NoteInfo } from '@shared/models'
-import { GetNotes, ReadNote } from '@shared/types'
+import { GetNotes, ReadNote, WriteNote } from '@shared/types'
 import { contextBridge, ipcRenderer } from 'electron'
 
 if (!process.contextIsolated) {
@@ -10,7 +10,8 @@ try {
   contextBridge.exposeInMainWorld('context', {
     locale: navigator.language,
     getNotes: (...args: Parameters<() => GetNotes>) => ipcRenderer.invoke('getNotes', ...args),
-    readNote: (...args: Parameters<(title: NoteInfo['title']) =>  ReadNote>) => ipcRenderer.invoke('readNote', ...args)
+    readNote: (...args: Parameters<(title: NoteInfo['title']) =>  ReadNote>) => ipcRenderer.invoke('readNote', ...args),
+    writeNote: (...args: Parameters<WriteNote>) => ipcRenderer.invoke('writeNote', ...args)
   })
 } catch (error) {
   console.log(error)
