@@ -19,10 +19,10 @@ export function NotePreview({
   return (
     <div
       className={cn(
-        'cursor-pointer px-2.5 py-3 rounded-md transition-colors duration-75 ',
+        'cursor-point er px-2.5 text-[#888888] py-3 rounded-md transition-colors duration-75 ',
         {
-          'bg-zinc-400/75': isActive,
-          'hover:bg-zinc-500': !isActive
+          'bg-[#212121] text-[#F5F5F5]': isActive,
+          'hover:bg-[#292929]': !isActive
         },
         className
       )}
