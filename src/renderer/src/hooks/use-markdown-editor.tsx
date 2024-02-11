@@ -31,11 +31,16 @@ export function useMarkdownEditor() {
       await saveNote(content)
     }
   }
+
+  function focus() {
+    editorRef.current?.focus()
+  }
   
   return {
     selectedNote,
     editorRef,
     handleAutoSaving,
-    handleBlur
+    handleBlur,
+    focus
   }
 }

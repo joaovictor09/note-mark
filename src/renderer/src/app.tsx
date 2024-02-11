@@ -2,6 +2,7 @@ import '@/assets/index.css'
 import { Content, RooLayout, Sidebar } from '@/components'
 import { useRef } from 'react'
 import { ActionButtonsRow } from './components/action-buttons-row'
+import { CommandMenu } from './components/command-menu'
 import { DraggableTopBar } from './components/draggable-top-bar'
 import { FloatingNoteTitle } from './components/floating-note-title'
 import { MarkdownEditor } from './components/markdown-editor'
@@ -17,6 +18,9 @@ export function App() {
   
   return (
     <>
+      <div className=''>
+        <CommandMenu />
+      </div>
       <WindowButtons />
       <DraggableTopBar />
       <RooLayout>

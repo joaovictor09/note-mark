@@ -2,7 +2,7 @@ import { MDXEditor, headingsPlugin, listsPlugin, markdownShortcutPlugin, quotePl
 import { useMarkdownEditor } from "@renderer/hooks/use-markdown-editor";
 
 export function MarkdownEditor() {
-  const {selectedNote,editorRef,handleAutoSaving, handleBlur} = useMarkdownEditor()
+  const { selectedNote,editorRef,handleAutoSaving, handleBlur} = useMarkdownEditor()
 
   if (!selectedNote) return null
   
