@@ -6,6 +6,7 @@ import { DraggableTopBar } from './components/draggable-top-bar'
 import { FloatingNoteTitle } from './components/floating-note-title'
 import { MarkdownEditor } from './components/markdown-editor'
 import { NotePreviewList } from './components/note-preview-list'
+import { WindowButtons } from './components/window-buttons'
 
 export function App() {
   const contentContainerRef = useRef<HTMLDivElement>(null)
@@ -16,6 +17,7 @@ export function App() {
   
   return (
     <>
+      <WindowButtons />
       <DraggableTopBar />
       <RooLayout>
         <Sidebar className="p-2">

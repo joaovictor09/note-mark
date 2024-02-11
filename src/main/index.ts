@@ -32,6 +32,22 @@ function createWindow(): void {
     mainWindow.show()
   })
 
+  ipcMain.on('minimize-window', () => {
+    mainWindow.minimize();
+  });
+
+  ipcMain.on('maximize-restore-window', () => {
+    if (mainWindow.isMaximized()) {
+      mainWindow.restore();
+    } else {
+      mainWindow.maximize();
+    }
+  });
+
+  ipcMain.on('close-window', () => {
+    mainWindow.close();
+  });
+
   mainWindow.webContents.setWindowOpenHandler((details) => {
     shell.openExternal(details.url)
     return { action: 'deny' }
@@ -86,6 +102,7 @@ app.on('window-all-closed', () => {
     app.quit()
   }
 })
+
 
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.

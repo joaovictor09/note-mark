@@ -11,6 +11,9 @@ declare global {
       writeNote: WriteNote
       createNote: CreateNote
       deleteNote: DeleteNote
+      maximize: () => void
+      minimize: () => void
+      close: () => void
     }
   }
 }

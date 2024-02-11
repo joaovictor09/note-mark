@@ -2,6 +2,7 @@ import { appDirectoryName, fileEncoding, welcomeNoteFilename } from '@shared/con
 import { NoteInfo } from '@shared/models'
 import { CreateNote, DeleteNote, GetNotes, ReadNote, WriteNote } from '@shared/types'
 import { dialog } from 'electron'
+import { BrowserWindow } from 'electron/main'
 import { ensureDir, readFile, readdir, remove, stat, writeFile } from 'fs-extra'
 import { isEmpty } from 'lodash'
 import { homedir } from 'os'
@@ -129,4 +130,11 @@ export const deleteNote: DeleteNote = async (filename) => {
   console.info(`Deleting note: ${filename}`)
   await remove(`${rootDir}\\${filename}.md`)
   return true
+}
+
+export function maximize() {
+    const window = BrowserWindow.getFocusedWindow();
+    if (!window) return
+    window.isMaximized() ? window.unmaximize() : window.maximize();
+    window.isMaximized() ? window.unmaximize() : window.maximize();
 }
