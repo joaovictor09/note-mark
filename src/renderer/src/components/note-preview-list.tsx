@@ -8,11 +8,17 @@ export type NotePreviewListProps = ComponentProps<'ul'> & {
   onSelect?: () => void
 }
 
-export function NotePreviewList({ onSelect, className, ...props }: NotePreviewListProps) {
-  const {notes, selectedNoteIndex, handleNoteSelect} = useNotesList({onSelect})
-  
+export function NotePreviewList({
+  onSelect,
+  className,
+  ...props
+}: NotePreviewListProps) {
+  const { notes, selectedNoteIndex, handleNoteSelect } = useNotesList({
+    onSelect,
+  })
+
   if (!notes) return null
-  
+
   if (isEmpty(notes)) {
     return (
       <ul className={twMerge('text-center pt-4', className)} {...props}>
@@ -24,7 +30,12 @@ export function NotePreviewList({ onSelect, className, ...props }: NotePreviewLi
   return (
     <ul className={className} {...props}>
       {notes.map((note, index) => (
-        <NotePreview onClick={() => handleNoteSelect(index)} isActive={selectedNoteIndex === index} key={note.title + note.lastEditTime} {...note} />
+        <NotePreview
+          onClick={() => handleNoteSelect(index)}
+          isActive={selectedNoteIndex === index}
+          key={note.title + note.lastEditTime}
+          {...note}
+        />
       ))}
     </ul>
   )

@@ -22,14 +22,16 @@ export function NotePreview({
         'cursor-point er px-2.5 text-[#888888] py-3 rounded-md transition-colors duration-75 ',
         {
           'bg-[#212121] text-[#F5F5F5]': isActive,
-          'hover:bg-[#292929]': !isActive
+          'hover:bg-[#292929]': !isActive,
         },
-        className
+        className,
       )}
       {...props}
     >
       <h3 className="mb-1 font-bold truncate">{title}</h3>
-      <span className="inline-block w-full mb-2 text-xs font-light text-left">{date}</span>
+      <span className="inline-block w-full mb-2 text-xs font-light text-left">
+        {date}
+      </span>
     </div>
   )
 }

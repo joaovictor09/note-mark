@@ -6,10 +6,10 @@ async function loadNotes() {
   const notes = await window.context.getNotes()
 
   // sort them by most recently edited
-  return notes.sort((a,b) => b.lastEditTime - a.lastEditTime)
+  return notes.sort((a, b) => b.lastEditTime - a.lastEditTime)
 }
 
-const notesAtomAsync = atom<NoteInfo[] | Promise<NoteInfo[]>>(loadNotes()) 
+const notesAtomAsync = atom<NoteInfo[] | Promise<NoteInfo[]>>(loadNotes())
 
 export const notesAtom = unwrap(notesAtomAsync, (prev) => prev)
 
@@ -29,40 +29,52 @@ const selectedNoteAtomAsync = atom(async (get) => {
 
   return {
     ...selectedNote,
-    content: noteContent
+    content: noteContent,
   }
 })
 
-export const selectedNoteAtom = unwrap(selectedNoteAtomAsync, (prev) => prev ?? {
-  title: '',
-  content: '',
-  lastEditTime: Date.now()
-})
+export const selectedNoteAtom = unwrap(
+  selectedNoteAtomAsync,
+  (prev) =>
+    prev ?? {
+      title: '',
+      content: '',
+      lastEditTime: Date.now(),
+    },
+)
 
-export const saveNoteAtom = atom(null, async (get, set, newContent: NoteContent) => {
-  const notes = get(notesAtom)
-  const selectedNote = get(selectedNoteAtom)
+export const saveNoteAtom = atom(
+  null,
+  async (get, set, newContent: NoteContent) => {
+    const notes = get(notesAtom)
+    const selectedNote = get(selectedNoteAtom)
 
-  if (!selectedNote || !notes) return
+    if (!selectedNote || !notes) return
 
-  //save on disk
-  await window.context.writeNote(selectedNote.title, newContent)
+    // save on disk
+    await window.context.writeNote(selectedNote.title, newContent)
 
-  // updated the saved note's last edit time
-  set(notesAtom, notes.map(note => {
-    if (note.title === selectedNote.title) {
-      return {
-        ...note,
-        lastEditTime: Date.now()
-      }}
-      return note
-  }))
-})
+    // updated the saved note's last edit time
+    set(
+      notesAtom,
+      notes.map((note) => {
+        if (note.title === selectedNote.title) {
+          return {
+            // ...note,
+            title: note.title,
+            lastEditTime: Date.now(),
+          }
+        }
+        return note
+      }),
+    )
+  },
+)
 
 export const createEmptyNoteAtom = atom(null, async (get, set) => {
   const notes = get(notesAtom)
 
-  if (!notes) return 
+  if (!notes) return
 
   const title = await window.context.createNote()
 
@@ -70,10 +82,13 @@ export const createEmptyNoteAtom = atom(null, async (get, set) => {
 
   const newNote: NoteInfo = {
     title,
-    lastEditTime: Date.now()
+    lastEditTime: Date.now(),
   }
 
-  set(notesAtom, [newNote, ...notes.filter(note => note.title !== newNote.title)])
+  set(notesAtom, [
+    newNote,
+    ...notes.filter((note) => note.title !== newNote.title),
+  ])
   set(selectedNoteIndexAtom, 0)
 })
 
@@ -81,13 +96,16 @@ export const deleteNoteAtom = atom(null, async (get, set) => {
   const notes = get(notesAtom)
   const selectedNote = get(selectedNoteAtom)
 
-  if (!selectedNote || !notes) return 
+  if (!selectedNote || !notes) return
 
   const isDeleted = await window.context.deleteNote(selectedNote.title)
 
   if (!isDeleted) return
 
-  set(notesAtom, notes.filter(note => note.title !== selectedNote.title))
+  set(
+    notesAtom,
+    notes.filter((note) => note.title !== selectedNote.title),
+  )
 
   set(selectedNoteIndexAtom, null)
 })

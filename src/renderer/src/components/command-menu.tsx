@@ -4,12 +4,16 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
-  CommandList
-} from "@/components/ui/command"
-import { createEmptyNoteAtom, deleteNoteAtom, selectedNoteAtom, sidebarOpenAtom } from "@renderer/store"
-import { useAtomValue, useSetAtom } from "jotai"
-import { useEffect, useState } from "react"
-
+  CommandList,
+} from '@/components/ui/command'
+import {
+  createEmptyNoteAtom,
+  deleteNoteAtom,
+  selectedNoteAtom,
+  sidebarOpenAtom,
+} from '@renderer/store'
+import { useAtomValue, useSetAtom } from 'jotai'
+import { useEffect, useState } from 'react'
 
 export function CommandMenu() {
   const [open, setOpen] = useState(false)
@@ -25,21 +29,20 @@ export function CommandMenu() {
     setOpen(false)
   }
 
-
   async function handleDelete() {
     await deleteNote()
     setOpen(false)
   }
-  
+
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
-      if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
+      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
         e.preventDefault()
         setOpen((open) => !open)
       }
     }
-    document.addEventListener("keydown", down)
-    return () => document.removeEventListener("keydown", down)
+    document.addEventListener('keydown', down)
+    return () => document.removeEventListener('keydown', down)
   }, [])
 
   return (
@@ -48,15 +51,15 @@ export function CommandMenu() {
       <CommandList>
         <CommandEmpty>No results found.</CommandEmpty>
         <CommandGroup heading="Suggestions">
-          <CommandItem onSelect={handleCreation}>
-            Create new note
+          <CommandItem onSelect={handleCreation}>Create new note</CommandItem>
+          <CommandItem disabled={!selectedNote} onSelect={handleDelete}>
+            Delete note
           </CommandItem>
-          <CommandItem disabled={!selectedNote} onSelect={handleDelete}>Delete note</CommandItem>
-          <CommandItem 
+          <CommandItem
             onSelect={() => {
               setSidebarOpen(!sidebarOpen)
-              setOpen(false)}
-            }
+              setOpen(false)
+            }}
           >
             {sidebarOpen ? 'Close sidebar' : 'Open sidebar'}
           </CommandItem>

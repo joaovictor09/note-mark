@@ -4,7 +4,11 @@ import { useAtomValue, useSetAtom } from 'jotai'
 import { ComponentProps, forwardRef, useEffect } from 'react'
 import { twMerge } from 'tailwind-merge'
 
-export function RooLayout({ className, children, ...props }: ComponentProps<'main'>) {
+export function RooLayout({
+  className,
+  children,
+  ...props
+}: ComponentProps<'main'>) {
   return (
     <main className={twMerge('flex flex-row h-screen', className)} {...props}>
       {children}
@@ -12,7 +16,11 @@ export function RooLayout({ className, children, ...props }: ComponentProps<'mai
   )
 }
 
-export function Sidebar({ className, children, ...props }: ComponentProps<'aside'>) {
+export function Sidebar({
+  className,
+  children,
+  ...props
+}: ComponentProps<'aside'>) {
   const open = useAtomValue(sidebarOpenAtom)
   const setOpen = useSetAtom(sidebarOpenAtom)
 
@@ -32,9 +40,9 @@ export function Sidebar({ className, children, ...props }: ComponentProps<'aside
       className={cn(
         'w-[250px] mt-10 h-[100vh + 10px] overflow-auto transition-all p-2',
         {
-          'w-0 px-0': !open
+          'w-0 px-0': !open,
         },
-        className
+        className,
       )}
       {...props}
     >
@@ -45,10 +53,14 @@ export function Sidebar({ className, children, ...props }: ComponentProps<'aside
 
 export const Content = forwardRef<HTMLDivElement, ComponentProps<'div'>>(
   ({ className, children, ...props }, ref) => (
-    <div ref={ref} className={twMerge('flex-1 overflow-auto bg-background', className)} {...props}>
+    <div
+      ref={ref}
+      className={twMerge('flex-1 overflow-auto bg-background', className)}
+      {...props}
+    >
       {children}
     </div>
-  )
+  ),
 )
 
 Content.displayName = 'Content'
