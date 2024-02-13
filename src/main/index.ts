@@ -1,6 +1,12 @@
 import { electronApp, is, optimizer } from '@electron-toolkit/utils'
 import { NoteInfo } from '@shared/models'
-import { CreateNote, DeleteNote, GetNotes, ReadNote, WriteNote } from '@shared/types'
+import {
+  CreateNote,
+  DeleteNote,
+  GetNotes,
+  ReadNote,
+  WriteNote,
+} from '@shared/types'
 import { BrowserWindow, app, ipcMain, shell } from 'electron'
 import { join } from 'path'
 import icon from '../../resources/icon.png?asset'
@@ -24,8 +30,8 @@ function createWindow(): void {
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: true,
-      contextIsolation: true
-    }
+      contextIsolation: true,
+    },
   })
 
   mainWindow.on('ready-to-show', () => {
@@ -33,20 +39,20 @@ function createWindow(): void {
   })
 
   ipcMain.on('minimize-window', () => {
-    mainWindow.minimize();
-  });
+    mainWindow.minimize()
+  })
 
   ipcMain.on('maximize-restore-window', () => {
     if (mainWindow.isMaximized()) {
-      mainWindow.restore();
+      mainWindow.restore()
     } else {
-      mainWindow.maximize();
+      mainWindow.maximize()
     }
-  });
+  })
 
   ipcMain.on('close-window', () => {
-    mainWindow.close();
-  });
+    mainWindow.close()
+  })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
     shell.openExternal(details.url)
@@ -55,8 +61,8 @@ function createWindow(): void {
 
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
-  if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
+  if (is.dev && process.env.ELECTRON_RENDERER_URL) {
+    mainWindow.loadURL(process.env.ELECTRON_RENDERER_URL)
   } else {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
   }
@@ -79,12 +85,24 @@ app.whenReady().then(() => {
   // IPC test
   ipcMain.on('ping', () => console.log('pong'))
 
-  ipcMain.handle('getNotes', (_, ...args: Parameters<() => GetNotes>) => getNotes(...args))
-  ipcMain.handle('readNote', (_, ...args: Parameters<(title: NoteInfo['title']) =>  ReadNote>) => readNote(...args))
-  ipcMain.handle('writeNote', (_, ...args: Parameters<WriteNote>) => writeNote(...args))
-  ipcMain.handle('createNote', (_, ...args: Parameters<() => CreateNote>) => createNote(...args))
-  ipcMain.handle('deleteNote', (_, ...args: Parameters<DeleteNote>) => deleteNote(...args))
-  
+  ipcMain.handle('getNotes', (_, ...args: Parameters<() => GetNotes>) =>
+    getNotes(...args),
+  )
+  ipcMain.handle(
+    'readNote',
+    (_, ...args: Parameters<(title: NoteInfo['title']) => ReadNote>) =>
+      readNote(...args),
+  )
+  ipcMain.handle('writeNote', (_, ...args: Parameters<WriteNote>) =>
+    writeNote(...args),
+  )
+  ipcMain.handle('createNote', (_, ...args: Parameters<() => CreateNote>) =>
+    createNote(...args),
+  )
+  ipcMain.handle('deleteNote', (_, ...args: Parameters<DeleteNote>) =>
+    deleteNote(...args),
+  )
+
   createWindow()
 
   app.on('activate', function () {
@@ -102,7 +120,6 @@ app.on('window-all-closed', () => {
     app.quit()
   }
 })
-
 
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.

@@ -9,7 +9,7 @@ export function DeleteNoteButton({ ...props }: ActionButtonProps) {
   async function handleDelete() {
     await deleteNote()
   }
-  
+
   return (
     <ActionButton onClick={handleDelete} {...props}>
       <FaRegTrashCan className="w-4 h-4 text-[#727272] transition-colors duration-100 group-hover:text-[#919191]" />

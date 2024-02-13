@@ -1,6 +1,16 @@
-import { appDirectoryName, fileEncoding, welcomeNoteFilename } from '@shared/constants'
+import {
+  appDirectoryName,
+  fileEncoding,
+  welcomeNoteFilename,
+} from '@shared/constants'
 import { NoteInfo } from '@shared/models'
-import { CreateNote, DeleteNote, GetNotes, ReadNote, WriteNote } from '@shared/types'
+import {
+  CreateNote,
+  DeleteNote,
+  GetNotes,
+  ReadNote,
+  WriteNote,
+} from '@shared/types'
 import { dialog } from 'electron'
 import { BrowserWindow } from 'electron/main'
 import { ensureDir, readFile, readdir, remove, stat, writeFile } from 'fs-extra'
@@ -20,7 +30,7 @@ export async function getNotes(): GetNotes {
 
   const notesFileNames = await readdir(rootDir, {
     encoding: fileEncoding,
-    withFileTypes: false
+    withFileTypes: false,
   })
 
   const notes = notesFileNames.filter((fileName) => fileName.endsWith('.md'))
@@ -29,12 +39,12 @@ export async function getNotes(): GetNotes {
     console.info('No notes found, creating a welcome note')
 
     const content = await readFile(welcomeNoteFile, {
-      encoding: fileEncoding
+      encoding: fileEncoding,
     })
 
     // create a welcome note
     await writeFile(`${rootDir}\\${welcomeNoteFilename}`, content, {
-      encoding: fileEncoding
+      encoding: fileEncoding,
     })
 
     notes.push(welcomeNoteFilename)
@@ -43,12 +53,14 @@ export async function getNotes(): GetNotes {
   return Promise.all(notes.map(getNoteInfoFromFilename))
 }
 
-export async function getNoteInfoFromFilename(filename: string): Promise<NoteInfo> {
+export async function getNoteInfoFromFilename(
+  filename: string,
+): Promise<NoteInfo> {
   const fileStats = await stat(`${getRootDir()}\\${filename}`)
 
   return {
     title: filename.replace(/\.md$/, ''),
-    lastEditTime: fileStats.mtimeMs
+    lastEditTime: fileStats.mtimeMs,
   }
 }
 
@@ -56,7 +68,7 @@ export async function readNote(filename: string): ReadNote {
   const rootDir = getRootDir()
 
   return readFile(`${rootDir}\\${filename}.md`, {
-    encoding: fileEncoding
+    encoding: fileEncoding,
   })
 }
 
@@ -66,7 +78,7 @@ export const writeNote: WriteNote = async (fileName, content) => {
   console.info(`Writing note ${fileName}.md`)
 
   return writeFile(`${rootDir}\\${fileName}.md`, content, {
-    encoding: fileEncoding
+    encoding: fileEncoding,
   })
 }
 
@@ -75,13 +87,13 @@ export const createNote: CreateNote = async () => {
 
   await ensureDir(rootDir)
 
-  const {filePath, canceled} = await dialog.showSaveDialog({
+  const { filePath, canceled } = await dialog.showSaveDialog({
     title: 'New note',
     defaultPath: `${rootDir}\\Untitled.md`,
     buttonLabel: 'Create',
     properties: ['showOverwriteConfirmation'],
     showsTagField: false,
-    filters: [{ name: 'Markdown', extensions: ['md'] }]
+    filters: [{ name: 'Markdown', extensions: ['md'] }],
   })
 
   if (canceled || !filePath) {
@@ -89,14 +101,14 @@ export const createNote: CreateNote = async () => {
     return false
   }
 
-  const {name: filename, dir: parentDir} = path.parse(filePath)
+  const { name: filename, dir: parentDir } = path.parse(filePath)
 
   if (parentDir !== rootDir) {
     await dialog.showMessageBox({
       type: 'error',
       title: 'Creation failed',
       message: `All notes must be saved under ${rootDir}.
-      Avoid using other directories!`
+      Avoid using other directories!`,
     })
 
     return false
@@ -104,7 +116,7 @@ export const createNote: CreateNote = async () => {
 
   console.info(`Creating note: ${filePath}`)
   await writeFile(filePath, '', {
-    encoding: fileEncoding
+    encoding: fileEncoding,
   })
 
   return filename
@@ -113,28 +125,18 @@ export const createNote: CreateNote = async () => {
 export const deleteNote: DeleteNote = async (filename) => {
   const rootDir = getRootDir()
 
-  const {response} = await dialog.showMessageBox({
-    type: 'warning',
-    title: 'Delete note',
-    message: `Are you sure you want to delete ${filename}?`,
-    buttons: ['Delete', 'Cancel'],
-    defaultId: 1,
-    cancelId: 1,
-  })
-
-  if (response === 1) {
-    console.info('Note deletion canceled')
+  console.info(`Deleting note: ${filename}`)
+  try {
+    await remove(`${rootDir}\\${filename}.md`)
+    return true
+  } catch {
     return false
   }
-
-  console.info(`Deleting note: ${filename}`)
-  await remove(`${rootDir}\\${filename}.md`)
-  return true
 }
 
 export function maximize() {
-    const window = BrowserWindow.getFocusedWindow();
-    if (!window) return
-    window.isMaximized() ? window.unmaximize() : window.maximize();
-    window.isMaximized() ? window.unmaximize() : window.maximize();
+  const window = BrowserWindow.getFocusedWindow()
+  if (!window) return
+  window.isMaximized() ? window.unmaximize() : window.maximize()
+  window.isMaximized() ? window.unmaximize() : window.maximize()
 }
