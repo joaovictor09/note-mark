@@ -11,12 +11,10 @@ import {
   ReadNote,
   WriteNote,
 } from '@shared/types'
-import { dialog } from 'electron'
 import { BrowserWindow } from 'electron/main'
 import { ensureDir, readFile, readdir, remove, stat, writeFile } from 'fs-extra'
 import { isEmpty } from 'lodash'
 import { homedir } from 'os'
-import path from 'path'
 import welcomeNoteFile from '../../../resources/welcomeNote.md?asset'
 
 export function getRootDir() {
@@ -82,44 +80,17 @@ export const writeNote: WriteNote = async (fileName, content) => {
   })
 }
 
-export const createNote: CreateNote = async () => {
+export const createNote: CreateNote = async (title) => {
   const rootDir = getRootDir()
 
   await ensureDir(rootDir)
 
-  const { filePath, canceled } = await dialog.showSaveDialog({
-    title: 'New note',
-    defaultPath: `${rootDir}\\Untitled.md`,
-    buttonLabel: 'Create',
-    properties: ['showOverwriteConfirmation'],
-    showsTagField: false,
-    filters: [{ name: 'Markdown', extensions: ['md'] }],
-  })
-
-  if (canceled || !filePath) {
-    console.info('Note creation canceled')
-    return false
-  }
-
-  const { name: filename, dir: parentDir } = path.parse(filePath)
-
-  if (parentDir !== rootDir) {
-    await dialog.showMessageBox({
-      type: 'error',
-      title: 'Creation failed',
-      message: `All notes must be saved under ${rootDir}.
-      Avoid using other directories!`,
-    })
-
-    return false
-  }
-
-  console.info(`Creating note: ${filePath}`)
-  await writeFile(filePath, '', {
+  console.info(`Creating note: ${title}`)
+  await writeFile(`${rootDir}\\${title}.md`, '', {
     encoding: fileEncoding,
   })
 
-  return filename
+  return title
 }
 
 export const deleteNote: DeleteNote = async (filename) => {

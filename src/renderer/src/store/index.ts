@@ -15,6 +15,9 @@ export const notesAtom = unwrap(notesAtomAsync, (prev) => prev)
 
 export const selectedNoteIndexAtom = atom<number | null>(null)
 
+export const createNoteDialogOpenAtom = atom<boolean>(false)
+export const deleteNoteDialogOpenAtom = atom<boolean>(false)
+
 export const sidebarOpenAtom = atom(true)
 
 const selectedNoteAtomAsync = atom(async (get) => {
@@ -55,41 +58,44 @@ export const saveNoteAtom = atom(
     await window.context.writeNote(selectedNote.title, newContent)
 
     // updated the saved note's last edit time
-    set(
-      notesAtom,
-      notes.map((note) => {
-        if (note.title === selectedNote.title) {
-          return {
-            title: note.title,
-            lastEditTime: Date.now(),
-          }
-        }
-        return note
-      }),
-    )
+    // set(
+    //   notesAtom,
+    //   notes.map((note) => {
+    //     if (note.title === selectedNote.title) {
+    //       return {
+    //         title: note.title,
+    //         lastEditTime: Date.now(),
+    //       }
+    //     }
+    //     return note
+    //   }),
+    // )
   },
 )
 
-export const createEmptyNoteAtom = atom(null, async (get, set) => {
-  const notes = get(notesAtom)
+export const createEmptyNoteAtom = atom(
+  null,
+  async (get, set, title: string) => {
+    const notes = get(notesAtom)
 
-  if (!notes) return
+    if (!notes) return
 
-  const title = await window.context.createNote()
+    if (!title) return
 
-  if (!title) return
+    await window.context.createNote(title)
 
-  const newNote: NoteInfo = {
-    title,
-    lastEditTime: Date.now(),
-  }
+    const newNote: NoteInfo = {
+      title,
+      lastEditTime: Date.now(),
+    }
 
-  set(notesAtom, [
-    newNote,
-    ...notes.filter((note) => note.title !== newNote.title),
-  ])
-  set(selectedNoteIndexAtom, 0)
-})
+    set(notesAtom, [
+      newNote,
+      ...notes.filter((note) => note.title !== newNote.title),
+    ])
+    set(selectedNoteIndexAtom, 0)
+  },
+)
 
 export const deleteNoteAtom = atom(null, async (get, set) => {
   const notes = get(notesAtom)

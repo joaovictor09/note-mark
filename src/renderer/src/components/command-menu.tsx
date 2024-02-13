@@ -7,8 +7,8 @@ import {
   CommandList,
 } from '@/components/ui/command'
 import {
-  createEmptyNoteAtom,
-  deleteNoteAtom,
+  createNoteDialogOpenAtom,
+  deleteNoteDialogOpenAtom,
   selectedNoteAtom,
   sidebarOpenAtom,
 } from '@renderer/store'
@@ -18,19 +18,19 @@ import { useEffect, useState } from 'react'
 export function CommandMenu() {
   const [open, setOpen] = useState(false)
 
-  const createEmptyNote = useSetAtom(createEmptyNoteAtom)
   const selectedNote = useAtomValue(selectedNoteAtom)
-  const deleteNote = useSetAtom(deleteNoteAtom)
   const sidebarOpen = useAtomValue(sidebarOpenAtom)
   const setSidebarOpen = useSetAtom(sidebarOpenAtom)
+  const setDeleteNoteDialogOpen = useSetAtom(deleteNoteDialogOpenAtom)
+  const setCreateNoteDialogOpen = useSetAtom(createNoteDialogOpenAtom)
 
   async function handleCreation() {
-    await createEmptyNote()
+    setCreateNoteDialogOpen(true)
     setOpen(false)
   }
 
   async function handleDelete() {
-    await deleteNote()
+    setDeleteNoteDialogOpen(true)
     setOpen(false)
   }
 

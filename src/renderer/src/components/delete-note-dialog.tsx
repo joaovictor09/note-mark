@@ -1,6 +1,9 @@
-import { deleteNoteAtom, selectedNoteIndexAtom } from '@renderer/store'
+import {
+  deleteNoteAtom,
+  deleteNoteDialogOpenAtom,
+  selectedNoteIndexAtom,
+} from '@renderer/store'
 import { useAtomValue, useSetAtom } from 'jotai'
-import { useState } from 'react'
 import { FaRegTrashCan } from 'react-icons/fa6'
 import { ActionButton } from './button/action-button'
 import {
@@ -14,7 +17,8 @@ import {
 } from './ui/dialog'
 
 export function DeleteNoteDialog() {
-  const [open, setOpen] = useState(false)
+  const open = useAtomValue(deleteNoteDialogOpenAtom)
+  const setOpen = useSetAtom(deleteNoteDialogOpenAtom)
 
   const selectedNoteIndex = useAtomValue(selectedNoteIndexAtom)
 

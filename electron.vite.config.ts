@@ -8,12 +8,12 @@ export default defineConfig({
     resolve: {
       alias: {
         '@/lib': resolve('src/main/lib'),
-        '@shared': resolve('src/shared')
-      }
-    }
+        '@shared': resolve('src/shared'),
+      },
+    },
   },
   preload: {
-    plugins: [externalizeDepsPlugin()]
+    plugins: [externalizeDepsPlugin()],
   },
   renderer: {
     assetsInclude: 'src/renderer/assets/**',
@@ -25,9 +25,9 @@ export default defineConfig({
         '@/assets': resolve('src/renderer/src/assets'),
         '@/store': resolve('src/renderer/src/store'),
         '@/components': resolve('src/renderer/src/components'),
-        '@/mocks': resolve('src/renderer/src/mocks')
-      }
+        '@/mocks': resolve('src/renderer/src/mocks'),
+      },
     },
-    plugins: [react()]
-  }
+    plugins: [react()],
+  },
 })

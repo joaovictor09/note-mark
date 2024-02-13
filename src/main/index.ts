@@ -96,7 +96,7 @@ app.whenReady().then(() => {
   ipcMain.handle('writeNote', (_, ...args: Parameters<WriteNote>) =>
     writeNote(...args),
   )
-  ipcMain.handle('createNote', (_, ...args: Parameters<() => CreateNote>) =>
+  ipcMain.handle('createNote', (_, ...args: Parameters<CreateNote>) =>
     createNote(...args),
   )
   ipcMain.handle('deleteNote', (_, ...args: Parameters<DeleteNote>) =>
