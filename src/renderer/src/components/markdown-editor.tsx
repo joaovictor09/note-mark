@@ -7,13 +7,12 @@ import {
   quotePlugin,
 } from '@mdxeditor/editor'
 import { useMarkdownEditor } from '@renderer/hooks/use-markdown-editor'
-import { EmptyNote } from './empty-note'
 
 export function MarkdownEditor() {
   const { selectedNote, editorRef, handleAutoSaving, handleBlur } =
     useMarkdownEditor()
 
-  if (!selectedNote) return <EmptyNote />
+  if (!selectedNote) return null
 
   return (
     <MDXEditor
